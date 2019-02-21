@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>WikiPedia</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="text-center">
+              <a href="https://en.wikipedia.org/wiki/Special:Random" target="blank"><img src="https://s3.amazonaws.com/content.sitezoogle.com/helpdesk/7054dde50c447a34031510aae7959d9603039181/original/wikipedia-logo-en-big.png?1395243915" style="width:15%;"></a><br><br>
+              <input class="from-control" type="text" id="search" placeholder="search" style="width:400px;">
+              <button class="btn btn-primary" id="searchbtn">search!</button>
+              <form action="https://en.wikipedia.org/wiki/Special:Random" method='post'>
+                <button class="btn btn-primary">lucky!</button><br><br>
+              </form>
+            </div>
+            <div style="background-color:silver;">
+              <ul id="output">
+              </ul>
+            </div>
+          </div>
+          <script>
+                $(document).ready(function(){
+                $("#searchbtn").click(function(){
+                    var searchword =$("#search").val();                     
+                    var url="https://en.wikipedia.org/w/api.php?action=opensearch&search="+searchword+"&format=json&callback=?";
+                    $.ajax({
+                    type:'GET',
+                    url:url,
+                    async:false,
+                    dataType:'json',
+                    success:function(data){
+                        $("#output").html('');
+                        for(var i=0;i<data[i].length;i++){
+                        $("#output").prepend("<li><a href="+data[3][i]+">"+data[1][i]+"</a><p>"+data[2][i]+"</p></li>");
+                        }
+                    },
+                    error:function(errorMassage){
+                        alert("Error");
+                    }
+                    });
+                });
+                });
+          </script>
+    </body>
+</html>
