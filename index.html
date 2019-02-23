@@ -30,6 +30,12 @@ p{
 <div id="response">
     <pre></pre>
 </div>
+<form id="my-form0"> 
+    <input type="text" id="id" name="id" placeholder="ID" />
+    <button type="submit" class="btn btn-success">Get Data</button>
+</form>
+
+<br><br><br><br><br><br>
 
 <p>here you can add a new employee to the company by API </p>
 
@@ -41,6 +47,7 @@ p{
 </form>
 
 <br><br><br><br><br><br>
+
 <p>or you can updata  employee with ID 5 :</p>
 <form id="my-form2">
     <input type="text" id="first-name" name="first-name" placeholder="First Name" />
@@ -57,6 +64,29 @@ p{
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
+    (function($){
+        function processForm( e ){
+            $.ajax({
+                url: 'http://localhost:3000/employees/'+document.getElementById('id').value,
+                dataType: 'text',
+                type: 'get',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $(this).serialize(),
+                success: function( data, textStatus, jQxhr ){
+                    $('#response pre').html( data );
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+
+            e.preventDefault();
+        }
+
+        $('#my-form0').submit( processForm );
+    })(jQuery);
+
+
     (function($){
         function processForm( e ){
             $.ajax({
